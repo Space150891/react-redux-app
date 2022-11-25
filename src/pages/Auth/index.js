@@ -12,7 +12,7 @@ export const Auth = () => {
   };
   return (
     <div className="App">
-      <header className="App-header">
+      <div className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         {signUp ? <SignUp /> : <SignIn />}
         <span
@@ -21,7 +21,7 @@ export const Auth = () => {
         >
           {signUp ? "Log in instead" : "Create new user"}
         </span>
-      </header>
+      </div>
     </div>
   );
 };

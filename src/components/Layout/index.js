@@ -1,25 +1,26 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import Header from "../Header";
 import { Auth } from "../../pages/Auth";
-import { state, logOut } from "../../store/reducers/auth";
+import { logOut } from "../../store/reducers/auth";
 import logOutWithFirebase from "../../api/logout";
 
-function Layout() {
+function Layout({ user }) {
   const dispatch = useDispatch();
-  const { user } = useSelector(state);
 
   return (
     <>
       {!user ? (
         <Auth />
       ) : (
-        <button
-          onClick={() => {
-            logOutWithFirebase();
-            dispatch(logOut());
-          }}
-        >
-          Log Out
-        </button>
+        <>
+          <Header
+            user={user}
+            onLogOut={() => {
+              logOutWithFirebase();
+              dispatch(logOut());
+            }}
+          />
+        </>
       )}
     </>
   );

@@ -1,23 +1,44 @@
 import React, { useState } from "react";
+import Button from "../../../components/Button";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../store/reducers/auth";
 import signUpWithFirebase from "../../../api/signup";
-import updateOrCreateUser from '../../../api/updateOrCreateUser';
+import updateOrCreateUser from "../../../api/updateOrCreateUser";
 
 export const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
-  
+
   const dispatch = useDispatch();
 
   const signUpHandler = async () => {
     if (email.length > 5 && password.length >= 8) {
       const user = await signUpWithFirebase(email, password);
       if (user) {
-        updateOrCreateUser(fullName, email).then(() => {
-          dispatch(setUser({ email: email, name: fullName }));
-        })
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (pos) => {
+              const crd = pos.coords;
+              const coords = {
+                latitude: crd.latitude,
+                longitude: crd.longitude,
+              };
+              updateOrCreateUser(email, fullName, coords).then(() => {
+                dispatch(setUser({ email, name: fullName, coords }));
+              });
+            },
+            (err) => {
+              dispatch(setUser({ email, name: fullName }));
+              console.warn(`ERROR(${err.code}): ${err.message}`);
+            }
+          );
+        } else {
+          dispatch(setUser({ email, name: fullName }));
+          alert(
+            "Geolocation is not supported by your browser. Please update your browser. Visit Help Center."
+          );
+        }
       }
     }
   };
@@ -47,7 +68,7 @@ export const SignUp = () => {
         type="password"
         onChange={(event) => setPassword(event.currentTarget.value)}
       />
-      <button onClick={signUpHandler}>Create new user</button>
+      <Button title="Sign Up" onClick={signUpHandler} />
     </div>
   );
 };

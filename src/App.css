@@ -39,6 +39,21 @@
   align-items: center;
   width: calc(100% - 200px);
 }
+.sidebar {
+  width: 25vw;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+header {
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 5%;
+  background-color: lightgray;
+}
 img {
   width: 200px;
 }
@@ -60,10 +75,9 @@ button {
   background-color: #bcdaff;
   border-radius: 15px;
   border: none;
-  height: 45px;
+  height: 40px;
   font-size: 20px;
-  margin-top: 30px;
-  width: 300px;
+  width: 220px;
   cursor: pointer;
 }
 button:focus {
