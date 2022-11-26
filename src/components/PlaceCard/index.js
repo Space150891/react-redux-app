@@ -20,10 +20,13 @@ const PlaceCard = ({ place, userLocation, disabled }) => {
     );
   };
 
-  if(!place) return null;
-  
+  if (!place) return null;
+
   return (
-    <div className={styles.placeCard} style={disabled ? {backgroundColor: 'cadetblue'} : {}}>
+    <div
+      className={styles.placeCard}
+      style={disabled ? { backgroundColor: "cadetblue" } : {}}
+    >
       {userLocation && <div>USER LOCATION</div>}
       <span>{place.city}</span> - <span>{place.country}</span>
       <div>

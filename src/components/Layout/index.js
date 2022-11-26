@@ -12,15 +12,21 @@ function Layout() {
   const { places, user, weatherForecast } = useSelector(state);
 
   useEffect(() => {
-    if(user?.location) {
-      const latitude = user.location.latitude || 0
-      const longitude = user.location.longitude || 0
-      if(latitude && longitude) {
-        dispatch(fetchWeatherForecast({latitude, longitude, city: user.location.city}))        
+    if (user?.location) {
+      const latitude = user.location.latitude || 0;
+      const longitude = user.location.longitude || 0;
+      if (latitude && longitude) {
+        dispatch(
+          fetchWeatherForecast({
+            latitude,
+            longitude,
+            city: user.location.city,
+          })
+        );
       }
     }
   }, [user, dispatch]);
-  
+
   return (
     <>
       {!user ? (
@@ -35,7 +41,11 @@ function Layout() {
             }}
           />
           <div style={{ display: "flex" }}>
-            <SideBar places={places} user={user} weatherForecast={weatherForecast} />
+            <SideBar
+              places={places}
+              user={user}
+              weatherForecast={weatherForecast}
+            />
             <WeatherCard weatherForecast={weatherForecast} />
           </div>
         </>

@@ -68,7 +68,6 @@ const WeatherCard = ({ weatherForecast }) => {
             return (
               <div className={styles.row} key={i}>
                 <div>{title}</div>
-                {/* <div>{weatherForecast.hourly.time[index].slice(0, 10)}</div> */}
                 <div>{weatherForecast.hourly.time[index].slice(11)}</div>
                 <div className={styles.data}>
                   <span>{sky}</span>

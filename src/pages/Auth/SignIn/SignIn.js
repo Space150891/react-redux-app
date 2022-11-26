@@ -50,6 +50,9 @@ export const SignIn = () => {
           setLoading(false);
           alert(error.message);
         });
+    } else {
+      setLoading(false);
+      alert("Something went wrong. Please try again!");
     }
   };
 
@@ -60,9 +63,9 @@ export const SignIn = () => {
       setPassword("");
     }
   };
-  
-  if(loading) return <span>Loading...</span>
-  
+
+  if (loading) return <span>Loading...</span>;
+
   return (
     <div className="sign-up">
       <span>Sign in</span>

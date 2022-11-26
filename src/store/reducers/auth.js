@@ -14,7 +14,7 @@ export const fetchUserLocation = createAsyncThunk(
     const response = await fetch(url)
       .then((response) => response.json())
       .catch((error) => console.error(error.message));
-    
+
     const userPlace = {
       latitude: response.latt,
       longitude: response.longt,
@@ -52,7 +52,7 @@ export const fetchWeatherForecast = createAsyncThunk(
     )
       .then((response) => response.json())
       .catch((error) => console.error(error.message));
-    return {...response, city: coords.city};
+    return { ...response, city: coords.city };
   }
 );
 
@@ -62,15 +62,14 @@ export const authSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
-      if(state.user.places) {
-        state.places = state.user.places
+      if (state.user.places) {
+        state.places = state.user.places;
       } else {
         const places = localStorage.getItem(`user-${state.user.email}`);
         if (places) {
           state.places = JSON.parse(places);
         }
       }
-
     },
     logOut: (state) => {
       state.user = null;
@@ -87,9 +86,15 @@ export const authSlice = createSlice({
         return undefined;
       });
       state.places = filteredPlaces;
-      const {user} = state;
+      const { user } = state;
       localStorage.setItem(`user-${user.email}`, JSON.stringify(state.places));
-      updateOrCreateUser(user.email, user.name, user.coords, user.location, state.places);
+      updateOrCreateUser(
+        user.email,
+        user.name,
+        user.coords,
+        user.location,
+        state.places
+      );
     },
     setWeatherForecast: (state, action) => {
       state.weatherForecast = action.payload;
@@ -101,16 +106,31 @@ export const authSlice = createSlice({
         state.weatherForecast = action.payload;
       })
       .addCase(fetchLocationByPlace.fulfilled, (state, action) => {
-        const {user} = state;
+        const { user } = state;
         state.places = [...state.places, action.payload];
-        localStorage.setItem(`user-${user.email}`, JSON.stringify(state.places));
-        updateOrCreateUser(user.email, user.name, user.coords, user.location, state.places);
+        localStorage.setItem(
+          `user-${user.email}`,
+          JSON.stringify(state.places)
+        );
+        updateOrCreateUser(
+          user.email,
+          user.name,
+          user.coords,
+          user.location,
+          state.places
+        );
       })
       .addCase(fetchUserLocation.fulfilled, (state, action) => {
         state.user.location = action.payload;
         localStorage.setItem("user-location", JSON.stringify(action.payload));
-        const {user} = state;
-        updateOrCreateUser(user.email, user.name, user.coords, user.location, user.places)
+        const { user } = state;
+        updateOrCreateUser(
+          user.email,
+          user.name,
+          user.coords,
+          user.location,
+          user.places
+        );
       });
   },
 });

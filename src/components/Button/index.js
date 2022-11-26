@@ -1,4 +1,4 @@
-const Button = ({title, ...props}) => {
+const Button = ({ title, ...props }) => {
   return <button {...props}>{title}</button>;
 };
 export default Button;
