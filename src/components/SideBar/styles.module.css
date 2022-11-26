@@ -1,0 +1,13 @@
+.sidebar {
+    width: 25vw;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color:aliceblue;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin: 11px;
+    height: 77vh;
+    overflow: scroll;
+  }

@@ -1,0 +1,18 @@
+.placeCard {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: lightcyan;
+}
+.placeCard span {
+  font-size: 16px;
+}
+.placeBtn {
+  width: fit-content;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.placeBtn:hover {
+  opacity: 0.7;
+}

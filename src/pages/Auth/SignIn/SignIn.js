@@ -9,9 +9,11 @@ import updateOrCreateUser from "../../../api/updateOrCreateUser";
 export const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const authenticateUser = async () => {
+    setLoading(true);
     const res = await logInWithFirebase(email, password);
     if (res) {
       getUserById(email)
@@ -25,23 +27,29 @@ export const SignIn = () => {
                   longitude: crd.longitude,
                 };
                 dispatch(
-                  setUser({ email: user.email, name: user.username, coords })
+                  setUser({ email: user.email, name: user.name, coords })
                 );
-                updateOrCreateUser(email, user.username, coords);
+                updateOrCreateUser(email, user.name, coords);
+                setLoading(false);
               },
               (err) => {
-                dispatch(setUser({ email, name: user.username }));
+                dispatch(setUser({ email, name: user.name }));
+                setLoading(false);
                 console.warn(`ERROR(${err.code}): ${err.message}`);
               }
             );
           } else {
-            dispatch(setUser({ email: user.email, name: user.username }));
+            dispatch(setUser({ email: user.email, name: user.name }));
+            setLoading(false);
             alert(
               "Geolocation is not supported by your browser. Please update your browser. Visit Help Center."
             );
           }
         })
-        .catch((error) => console.error(error.message));
+        .catch((error) => {
+          setLoading(false);
+          alert(error.message);
+        });
     }
   };
 
@@ -52,6 +60,9 @@ export const SignIn = () => {
       setPassword("");
     }
   };
+  
+  if(loading) return <span>Loading...</span>
+  
   return (
     <div className="sign-up">
       <span>Sign in</span>

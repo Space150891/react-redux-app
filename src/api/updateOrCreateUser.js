@@ -1,13 +1,14 @@
 import { ref, set } from "firebase/database";
 import { db } from "../firebase";
 
-const updateOrCreateUser = async (email, name = '', coords = {}, places = []) => {
+const updateOrCreateUser = async (email, name = '', coords = {}, location = null, places = []) => {
   if (!email) return;
   const userId = email.replace(/[.]/g, "-");
   return await set(ref(db, "users/" + userId), {
     email,
-    username: name,
+    name,
     coords,
+    location,
     places,
   });
 };
